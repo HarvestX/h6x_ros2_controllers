@@ -8,6 +8,8 @@
       "includePath": [
         "/opt/ros/humble/include/**",
         "/usr/include/**",
+        "${workspaceFolder}/image_sensor_broadcaster/include/**",
+        "${workspaceFolder}/../../install/image_sensor_broadcaster/include/**",
       ],
       "name": "ROS",
       "intelliSenseMode": "clang-x64",

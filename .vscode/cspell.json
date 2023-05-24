@@ -2,10 +2,13 @@
   "language": "en",
   "version": "0.2",
   "words": [
+    "bigendian",
     "colcon",
     "coveragepy",
     "distro",
     "osrf",
+    "PLUGINLIB",
+    "rclcpp",
     "vcstool"
   ]
 }

@@ -1,0 +1,35 @@
+image_sensor_broadcaster:
+  sensor_name: {
+    type: string,
+    default_value: "",
+    description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined.",
+  }
+  frame_id: {
+    type: string,
+    default_value: "",
+    description: "Sensor's frame_id in which values are published.",
+  }
+  height: {
+    type: int,
+    default_value: 0,
+  }
+  width: {
+    type: int,
+    default_value: 0,
+  }
+  encoding: {
+    type: string,
+    default_value: "",
+  }
+  is_bigendian: {
+    type: int,
+    default_value: 0,
+  }
+  step: {
+    type: int,
+    default_value: 0,
+  }
+  data: {
+    type: int_array,
+    default_value: [],
+  }
