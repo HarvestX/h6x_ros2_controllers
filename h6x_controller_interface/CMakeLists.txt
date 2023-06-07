@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.8)
-project(controller_interface)
+project(h6x_controller_interface)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -8,12 +8,12 @@ endif()
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
-ament_auto_add_library(controller_interface
+ament_auto_add_library(h6x_controller_interface
   SHARED
-  src/controller_interface.cpp
+  src/h6x_controller_interface.cpp
 )
 
-target_compile_definitions(controller_interface PRIVATE "CONTROLLER_INTERFACE_BUILDING_DLL")
+target_compile_definitions(h6x_controller_interface PRIVATE "CONTROLLER_INTERFACE_BUILDING_DLL")
 
 if(BUILD_TESTING)
   find_package(ament_cmake_gmock REQUIRED)

@@ -1,4 +1,4 @@
-// Copyright 2017 Open Source Robotics Foundation, Inc.
+// Copyright 2023 HarvestX Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -12,8 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#ifndef CONTROLLER_INTERFACE__CONTROLLER_INTERFACE_HPP_
-#define CONTROLLER_INTERFACE__CONTROLLER_INTERFACE_HPP_
+#pragma once
 
 #include <memory>
 #include <string>
@@ -23,7 +22,7 @@
 #include "controller_interface/visibility_control.h"
 #include "hardware_interface/handle.hpp"
 
-namespace controller_interface
+namespace h6x_controller_interface
 {
 class ControllerInterface : public controller_interface::ControllerInterfaceBase
 {
@@ -69,6 +68,4 @@ public:
 
 using ControllerInterfaceSharedPtr = std::shared_ptr<ControllerInterface>;
 
-}  // namespace controller_interface
-
-#endif  // CONTROLLER_INTERFACE__CONTROLLER_INTERFACE_HPP_
+}  // namespace h6x_controller_interface

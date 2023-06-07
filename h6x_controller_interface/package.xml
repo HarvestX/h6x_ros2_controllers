@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>controller_interface</name>
+  <name>h6x_controller_interface</name>
   <version>0.0.0</version>
   <description>Description of controller_interface</description>
   <maintainer email="mountain.inside1310@gmail.com">isato</maintainer>
@@ -12,6 +12,7 @@
   <build_depend>hardware_interface</build_depend>
   <build_depend>rclcpp_lifecycle</build_depend>
   <build_depend>sensor_msgs</build_depend>
+  <build_depend>controller_interface</build_depend>
 
   <build_export_depend>hardware_interface</build_export_depend>
   <build_export_depend>rclcpp_lifecycle</build_export_depend>

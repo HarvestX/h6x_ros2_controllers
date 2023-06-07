@@ -12,7 +12,7 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-#include "controller_interface/controller_interface.hpp"
+#include "h6x_controller_interface/h6x_controller_interface.hpp"
 
 #include <memory>
 #include <string>
@@ -22,19 +22,20 @@
 #include "hardware_interface/types/lifecycle_state_names.hpp"
 #include "lifecycle_msgs/msg/state.hpp"
 
-namespace controller_interface
+namespace h6x_controller_interface
 {
-ControllerInterface::ControllerInterface() : ControllerInterfaceBase() {}
+ControllerInterface::ControllerInterface()
+: ControllerInterfaceBase() {}
 
-bool ControllerInterface::is_chainable() const { return false; }
+bool ControllerInterface::is_chainable() const {return false;}
 
 std::vector<hardware_interface::CommandInterface> ControllerInterface::export_reference_interfaces()
 {
   return {};
 }
 
-bool ControllerInterface::set_chained_mode(bool /*chained_mode*/) { return false; }
+bool ControllerInterface::set_chained_mode(bool /*chained_mode*/) {return false;}
 
-bool ControllerInterface::is_in_chained_mode() const { return false; }
+bool ControllerInterface::is_in_chained_mode() const {return false;}
 
-}  // namespace controller_interface
+}  // namespace h6x_controller_interface
