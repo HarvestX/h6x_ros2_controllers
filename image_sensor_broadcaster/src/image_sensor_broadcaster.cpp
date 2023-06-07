@@ -125,4 +125,4 @@ controller_interface::return_type ImageSensorBroadcaster::update(
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-  image_sensor_broadcaster::ImageSensorBroadcaster, controller_interface::ControllerInterface)
+  image_sensor_broadcaster::ImageSensorBroadcaster, h6x_controller_interface::ControllerInterface)
