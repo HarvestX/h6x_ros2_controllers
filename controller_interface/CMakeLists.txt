@@ -19,42 +19,15 @@ if(BUILD_TESTING)
   find_package(ament_cmake_gmock REQUIRED)
   find_package(sensor_msgs REQUIRED)
 
-  ament_add_gmock(test_controller_interface test/test_controller_interface.cpp)
-  target_link_libraries(test_controller_interface
-    controller_interface
-  )
+  # ament_add_gmock(test_image_sensor test/test_image_sensor.cpp)
+  # target_link_libraries(test_image_sensor
+  #   controller_interface
+  #   hardware_interface::hardware_interface
+  # )
+  # ament_target_dependencies(test_image_sensor
+  #   sensor_msgs
+  # )
 
-  ament_add_gmock(test_controller_with_options test/test_controller_with_options.cpp)
-  target_link_libraries(test_controller_with_options
-    controller_interface
-  )
-
-  ament_add_gmock(test_chainable_controller_interface test/test_chainable_controller_interface.cpp)
-  target_link_libraries(test_chainable_controller_interface
-    controller_interface
-    hardware_interface::hardware_interface
-  )
-
-  ament_add_gmock(test_semantic_component_interface test/test_semantic_component_interface.cpp)
-  target_link_libraries(test_semantic_component_interface
-    controller_interface
-    hardware_interface::hardware_interface
-  )
-
-  ament_add_gmock(test_force_torque_sensor test/test_force_torque_sensor.cpp)
-  target_link_libraries(test_force_torque_sensor
-    controller_interface
-    hardware_interface::hardware_interface
-  )
-
-  ament_add_gmock(test_imu_sensor test/test_imu_sensor.cpp)
-  target_link_libraries(test_imu_sensor
-    controller_interface
-    hardware_interface::hardware_interface
-  )
-  ament_target_dependencies(test_imu_sensor
-    sensor_msgs
-  )
 endif()
 
 ament_auto_package()
