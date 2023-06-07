@@ -1,0 +1,60 @@
+cmake_minimum_required(VERSION 3.8)
+project(controller_interface)
+
+if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
+  add_compile_options(-Wall -Wextra -Wpedantic)
+endif()
+
+find_package(ament_cmake_auto REQUIRED)
+ament_auto_find_build_dependencies()
+
+ament_auto_add_library(controller_interface
+  SHARED
+  src/controller_interface.cpp
+)
+
+target_compile_definitions(controller_interface PRIVATE "CONTROLLER_INTERFACE_BUILDING_DLL")
+
+if(BUILD_TESTING)
+  find_package(ament_cmake_gmock REQUIRED)
+  find_package(sensor_msgs REQUIRED)
+
+  ament_add_gmock(test_controller_interface test/test_controller_interface.cpp)
+  target_link_libraries(test_controller_interface
+    controller_interface
+  )
+
+  ament_add_gmock(test_controller_with_options test/test_controller_with_options.cpp)
+  target_link_libraries(test_controller_with_options
+    controller_interface
+  )
+
+  ament_add_gmock(test_chainable_controller_interface test/test_chainable_controller_interface.cpp)
+  target_link_libraries(test_chainable_controller_interface
+    controller_interface
+    hardware_interface::hardware_interface
+  )
+
+  ament_add_gmock(test_semantic_component_interface test/test_semantic_component_interface.cpp)
+  target_link_libraries(test_semantic_component_interface
+    controller_interface
+    hardware_interface::hardware_interface
+  )
+
+  ament_add_gmock(test_force_torque_sensor test/test_force_torque_sensor.cpp)
+  target_link_libraries(test_force_torque_sensor
+    controller_interface
+    hardware_interface::hardware_interface
+  )
+
+  ament_add_gmock(test_imu_sensor test/test_imu_sensor.cpp)
+  target_link_libraries(test_imu_sensor
+    controller_interface
+    hardware_interface::hardware_interface
+  )
+  ament_target_dependencies(test_imu_sensor
+    sensor_msgs
+  )
+endif()
+
+ament_auto_package()
