@@ -44,8 +44,8 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
     return CallbackReturn::ERROR;
   }
 
-  // image_sensor_ = std::make_unique<semantic_components::IMUSensor>(
-  //   semantic_components::IMUSensor(params_.sensor_name));
+  image_sensor_ = std::make_unique<semantic_components::ImageSensor>(
+    semantic_components::ImageSensor(params_.sensor_name));
   try {
     // register ft sensor data publisher
     sensor_state_publisher_ =
@@ -59,13 +59,19 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
   }
 
   realtime_publisher_->lock();
+
   realtime_publisher_->msg_.header.frame_id = params_.frame_id;
   realtime_publisher_->msg_.height = static_cast<uint32_t>(params_.height);
   realtime_publisher_->msg_.width = static_cast<uint32_t>(params_.width);
   realtime_publisher_->msg_.encoding = params_.encoding;
   realtime_publisher_->msg_.is_bigendian = static_cast<uint8_t>(params_.is_bigendian);
   realtime_publisher_->msg_.step = static_cast<uint32_t>(params_.step);
-  // realtime_publisher_->msg_.data = static_cast<std::vector<uint8_t>>(params_.data);
+
+  size_t data_size = params_.step * params_.height;
+  for (size_t i = 0; i < data_size; i++) {
+    realtime_publisher_->msg_.data[i] = static_cast<uint8_t>(params_.data[i]);
+  }
+
   realtime_publisher_->unlock();
 
   RCLCPP_DEBUG(get_node()->get_logger(), "configure successful");
@@ -83,21 +89,36 @@ const
 controller_interface::InterfaceConfiguration ImageSensorBroadcaster::state_interface_configuration()
 const
 {
+  controller_interface::InterfaceConfiguration state_interfaces_config;
+  state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
+  state_interfaces_config.names = image_sensor_->get_state_interface_names();
+  return state_interfaces_config;
 }
 
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_activate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
+  image_sensor_->assign_loaned_state_interfaces(state_interfaces_);
+  return CallbackReturn::SUCCESS;
 }
 
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
+  image_sensor_->release_interfaces();
+  return CallbackReturn::SUCCESS;
 }
 
 controller_interface::return_type ImageSensorBroadcaster::update(
   const rclcpp::Time & time, const rclcpp::Duration & /*period*/)
 {
+  if (realtime_publisher_ && realtime_publisher_->trylock()) {
+    realtime_publisher_->msg_.header.stamp = time;
+    image_sensor_->get_values_as_message(realtime_publisher_->msg_);
+    realtime_publisher_->unlockAndPublish();
+  }
+
+  return controller_interface::return_type::OK;
 }
 } // namespace image_sensor_broadcaster
 

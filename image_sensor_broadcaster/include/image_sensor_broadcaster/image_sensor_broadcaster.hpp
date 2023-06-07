@@ -25,6 +25,7 @@
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
 #include "rclcpp_lifecycle/state.hpp"
 #include "realtime_tools/realtime_publisher.h"
+#include "semantic_components/image_sensor.hpp"
 #include "sensor_msgs/msg/image.hpp"
 
 namespace image_sensor_broadcaster
@@ -59,6 +60,8 @@ public:
 protected:
   std::shared_ptr<ParamListener> param_listener_;
   Params params_;
+
+  std::unique_ptr<semantic_components::ImageSensor> image_sensor_;
 
   using StatePublisher = realtime_tools::RealtimePublisher<sensor_msgs::msg::Image>;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr sensor_state_publisher_;
