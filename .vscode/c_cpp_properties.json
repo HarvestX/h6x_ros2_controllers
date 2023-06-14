@@ -11,7 +11,9 @@
         "/usr/include/**",
         "${workspaceFolder}/image_sensor_broadcaster/include/**",
         "${workspaceFolder}/h6x_controller_interface/include/**",
+        "${workspaceFolder}/h6x_controller_manager/include/**",
         "${workspaceFolder}/../../install/image_sensor_broadcaster/include/**",
+        "${workspaceFolder}/example_1/**"
       ],
       "name": "ROS",
       "intelliSenseMode": "clang-x64",

@@ -21,12 +21,12 @@ target_link_libraries(image_sensor_broadcaster
 )
 
 pluginlib_export_plugin_description_file(
-  controller_interface image_sensor_broadcaster.xml)
+  h6x_controller_interface image_sensor_broadcaster.xml)
 
 # Testing ===========================================================
 if(BUILD_TESTING)
   find_package(ament_cmake_gmock REQUIRED)
-  find_package(controller_manager REQUIRED)
+  find_package(h6x_controller_manager REQUIRED)
   find_package(ros2_control_test_assets REQUIRED)
 
   ament_add_gmock(test_load_image_sensor_broadcaster
@@ -36,7 +36,7 @@ if(BUILD_TESTING)
     image_sensor_broadcaster
   )
   ament_target_dependencies(test_load_image_sensor_broadcaster
-    controller_manager
+    h6x_controller_manager
     hardware_interface
     ros2_control_test_assets
   )

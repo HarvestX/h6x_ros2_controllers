@@ -1,0 +1,6 @@
+h6x_controller_manager:
+  ros__parameters:
+    update_rate: 10  # Hz
+
+    image_sensor_broadcaster:
+      type: image_sensor_broadcaster/ImageSensorBroadcaster
