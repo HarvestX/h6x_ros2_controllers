@@ -33,19 +33,8 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_init()
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  // params_ = param_listener_->get_params();
-  // if (params_.sensor_name.empty()) {
-  //   RCLCPP_ERROR(get_node()->get_logger(), "'sensor_name' parameter has to be specified.");
-  //   return CallbackReturn::ERROR;
-  // }
+  params_ = param_listener_->get_params();
 
-  // if (params_.frame_id.empty()) {
-  //   RCLCPP_ERROR(get_node()->get_logger(), "'frame_id' parameter has to be provided.");
-  //   return CallbackReturn::ERROR;
-  // }
-
-  image_sensor_ = std::make_unique<semantic_components::ImageSensor>(
-    semantic_components::ImageSensor(params_.sensor_name));
   try {
     // register ft sensor data publisher
     sensor_state_publisher_ =
@@ -69,7 +58,7 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
 
   size_t data_size = params_.step * params_.height;
   for (size_t i = 0; i < data_size; i++) {
-    realtime_publisher_->msg_.data[i] = static_cast<uint8_t>(params_.data[i]);
+    realtime_publisher_->msg_.data.push_back(static_cast<uint8_t>(params_.data[i]));
   }
 
   realtime_publisher_->unlock();
@@ -91,30 +80,37 @@ const
 {
   controller_interface::InterfaceConfiguration state_interfaces_config;
   state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
-  state_interfaces_config.names = image_sensor_->get_state_interface_names();
+  for (size_t i = 0; i < 6; i++) {
+    state_interfaces_config.names.push_back(params_.sensor_name + "/" + interface_name_[i]);
+    RCLCPP_INFO(
+      get_node()->get_logger(), "%s/%s",
+      params_.sensor_name.c_str(), interface_name_[i].c_str());
+  }
   return state_interfaces_config;
 }
 
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_activate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  image_sensor_->assign_loaned_state_interfaces(state_interfaces_);
+  RCLCPP_INFO(
+    get_node()->get_logger(), "activating");
   return CallbackReturn::SUCCESS;
 }
 
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  image_sensor_->release_interfaces();
   return CallbackReturn::SUCCESS;
 }
 
 controller_interface::return_type ImageSensorBroadcaster::update(
   const rclcpp::Time & time, const rclcpp::Duration & /*period*/)
 {
+  for (auto & e : state_interfaces_) {
+    RCLCPP_INFO(get_node()->get_logger(), "%lf", e.get_value());
+  }
   if (realtime_publisher_ && realtime_publisher_->trylock()) {
     realtime_publisher_->msg_.header.stamp = time;
-    image_sensor_->get_values_as_message(realtime_publisher_->msg_);
     realtime_publisher_->unlockAndPublish();
   }
 
@@ -125,4 +121,4 @@ controller_interface::return_type ImageSensorBroadcaster::update(
 #include "pluginlib/class_list_macros.hpp"
 
 PLUGINLIB_EXPORT_CLASS(
-  image_sensor_broadcaster::ImageSensorBroadcaster, h6x_controller_interface::ControllerInterface)
+  image_sensor_broadcaster::ImageSensorBroadcaster, controller_interface::ControllerInterface)

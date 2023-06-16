@@ -21,7 +21,7 @@
 
 #include "hardware_interface/handle.hpp"
 #include "hardware_interface/hardware_info.hpp"
-#include "hardware_interface/system_interface.hpp"
+#include "hardware_interface/sensor_interface.hpp"
 #include "hardware_interface/types/hardware_interface_return_values.hpp"
 #include "rclcpp/macros.hpp"
 #include "rclcpp_lifecycle/node_interfaces/lifecycle_node_interface.hpp"
@@ -30,7 +30,7 @@
 
 namespace ros2_control_demo_example_1
 {
-class RRBotSystemPositionOnlyHardware : public hardware_interface::SystemInterface
+class RRBotSystemPositionOnlyHardware : public hardware_interface::SensorInterface
 {
 public:
   RCLCPP_SHARED_PTR_DEFINITIONS(RRBotSystemPositionOnlyHardware);
@@ -47,9 +47,6 @@ public:
   std::vector<hardware_interface::StateInterface> export_state_interfaces() override;
 
   ROS2_CONTROL_DEMO_EXAMPLE_1_PUBLIC
-  std::vector<hardware_interface::CommandInterface> export_command_interfaces() override;
-
-  ROS2_CONTROL_DEMO_EXAMPLE_1_PUBLIC
   hardware_interface::CallbackReturn on_activate(
     const rclcpp_lifecycle::State & previous_state) override;
 
@@ -61,10 +58,6 @@ public:
   hardware_interface::return_type read(
     const rclcpp::Time & time, const rclcpp::Duration & period) override;
 
-  ROS2_CONTROL_DEMO_EXAMPLE_1_PUBLIC
-  hardware_interface::return_type write(
-    const rclcpp::Time & time, const rclcpp::Duration & period) override;
-
 private:
   // Parameters for the RRBot simulation
   double hw_start_sec_;
@@ -72,8 +65,7 @@ private:
   double hw_slowdown_;
 
   // Store the command for the simulated robot
-  std::vector<double> hw_commands_;
-  std::vector<double> hw_states_;
+  std::vector<double> hw_sensor_states_;
 };
 
 }  // namespace ros2_control_demo_example_1

@@ -46,16 +46,6 @@ def generate_launch_description():
             "rrbot_controllers.yaml",
         ]
     )
-    h6x_robot_controllers = PathJoinSubstitution(
-        [
-            FindPackageShare("ros2_control_demo_example_1"),
-            "config",
-            "h6x_rrbot_controllers.yaml",
-        ]
-    )
-    rviz_config_file = PathJoinSubstitution(
-        [FindPackageShare("ros2_control_demo_example_1"), "rviz", "rrbot.rviz"]
-    )
 
     control_node = Node(
         package="controller_manager",
@@ -63,68 +53,16 @@ def generate_launch_description():
         parameters=[robot_description, robot_controllers],
         output="both",
     )
-    h6x_control_node = Node(
-        package="h6x_controller_manager",
-        executable="ros2_control_node",
-        parameters=[robot_description, h6x_robot_controllers],
-        output="both"
-    )
-    robot_state_pub_node = Node(
-        package="robot_state_publisher",
-        executable="robot_state_publisher",
-        output="both",
-        parameters=[robot_description],
-    )
-    rviz_node = Node(
-        package="rviz2",
-        executable="rviz2",
-        name="rviz2",
-        output="log",
-        arguments=["-d", rviz_config_file],
-    )
-
-    joint_state_broadcaster_spawner = Node(
-        package="controller_manager",
-        executable="spawner",
-        arguments=["joint_state_broadcaster", "--controller-manager", "/controller_manager"],
-    )
 
     image_sensor_broadcaster_spawner = Node(
-        package="h6x_controller_manager",
-        executable="spawner",
-        arguments=["image_sensor_broadcaster", "--h6x-controller-manager", "/h6x_controller_manager"],
-    )
-
-    robot_controller_spawner = Node(
         package="controller_manager",
         executable="spawner",
-        arguments=["forward_position_controller", "--controller-manager", "/controller_manager"],
-    )
-
-    # Delay rviz start after `joint_state_broadcaster`
-    delay_rviz_after_joint_state_broadcaster_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=joint_state_broadcaster_spawner,
-            on_exit=[rviz_node],
-        )
-    )
-
-    # Delay start of robot_controller after `joint_state_broadcaster`
-    delay_robot_controller_spawner_after_joint_state_broadcaster_spawner = RegisterEventHandler(
-        event_handler=OnProcessExit(
-            target_action=joint_state_broadcaster_spawner,
-            on_exit=[robot_controller_spawner],
-        )
+        arguments=["image_sensor_broadcaster", "--controller-manager", "/controller_manager"],
     )
 
     nodes = [
         control_node,
-        h6x_control_node,
-        robot_state_pub_node,
-        joint_state_broadcaster_spawner,
         image_sensor_broadcaster_spawner,
-        delay_rviz_after_joint_state_broadcaster_spawner,
-        delay_robot_controller_spawner_after_joint_state_broadcaster_spawner,
     ]
 
     return LaunchDescription(nodes)
