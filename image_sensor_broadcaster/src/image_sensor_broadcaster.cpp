@@ -37,9 +37,9 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
 
   try {
     // register ft sensor data publisher
-    sensor_state_publisher_ =
-      get_node()->create_publisher<sensor_msgs::msg::Image>("~/image", rclcpp::SystemDefaultsQoS());
-    realtime_publisher_ = std::make_unique<StatePublisher>(sensor_state_publisher_);
+    this->sensor_state_publisher_ =
+      get_node()->create_publisher<sensor_msgs::msg::Image>("~/image", rclcpp::SensorDataQoS());
+    this->realtime_publisher_ = std::make_unique<StatePublisher>(sensor_state_publisher_);
   } catch (const std::exception & e) {
     fprintf(
       stderr, "Exception thrown during publisher creation at configure stage with message : %s \n",
@@ -49,12 +49,17 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
 
   realtime_publisher_->lock();
 
-  realtime_publisher_->msg_.header.frame_id = params_.frame_id;
-  realtime_publisher_->msg_.height = static_cast<uint32_t>(params_.height);
-  realtime_publisher_->msg_.width = static_cast<uint32_t>(params_.width);
-  realtime_publisher_->msg_.encoding = params_.encoding;
-  realtime_publisher_->msg_.is_bigendian = static_cast<uint8_t>(params_.is_bigendian);
-  realtime_publisher_->msg_.step = static_cast<uint32_t>(params_.step);
+  realtime_publisher_->msg_.header.frame_id = this->params_.frame_id;
+  realtime_publisher_->msg_.encoding = this->params_.encoding;
+  realtime_publisher_->msg_.is_bigendian = static_cast<uint8_t>(this->params_.is_bigendian);
+  realtime_publisher_->msg_.height = static_cast<uint32_t>(this->params_.height);
+  realtime_publisher_->msg_.width = static_cast<uint32_t>(this->params_.width);
+  realtime_publisher_->msg_.step =
+    static_cast<uint32_t>(this->params_.width *
+    sensor_msgs::image_encodings::numChannels(this->params_.encoding));
+
+  realtime_publisher_->msg_.data.reserve(
+    realtime_publisher_->msg_.step * realtime_publisher_->msg_.height);
 
   realtime_publisher_->unlock();
 
@@ -75,12 +80,6 @@ const
 {
   controller_interface::InterfaceConfiguration state_interfaces_config;
   state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
-  for (size_t i = 0; i < 6; i++) {
-    state_interfaces_config.names.push_back(params_.sensor_name + "/" + interface_name_[i]);
-    RCLCPP_INFO(
-      get_node()->get_logger(), "%s/%s",
-      params_.sensor_name.c_str(), interface_name_[i].c_str());
-  }
   return state_interfaces_config;
 }
 
@@ -100,11 +99,9 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_deactivate(
 controller_interface::return_type ImageSensorBroadcaster::update(
   const rclcpp::Time & time, const rclcpp::Duration & /*period*/)
 {
-  for (auto & e : state_interfaces_) {
-    RCLCPP_INFO(get_node()->get_logger(), "%lf", e.get_value());
-  }
   if (realtime_publisher_ && realtime_publisher_->trylock()) {
-    realtime_publisher_->msg_.header.stamp = time;
+    realtime_publisher_->msg_.header.set__stamp(time);
+    // realtime_publisher_->msg_.set__data();
     realtime_publisher_->unlockAndPublish();
   }
 

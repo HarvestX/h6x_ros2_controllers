@@ -10,7 +10,7 @@
         "/opt/ros/humble/src/gmock_vendor/include/**",
         "/usr/include/**",
         "${workspaceFolder}/../../install/image_sensor_broadcaster/include/**",
-        "${workspaceFolder}/image_sensor_broadcaster/include/**",
+        "${workspaceFolder}/image_sensor_broadcaster/include/**"
       ],
       "name": "ROS",
       "intelliSenseMode": "clang-x64",

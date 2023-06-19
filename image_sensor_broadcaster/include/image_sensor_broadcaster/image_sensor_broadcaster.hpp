@@ -26,6 +26,7 @@
 #include "rclcpp_lifecycle/state.hpp"
 #include "realtime_tools/realtime_publisher.h"
 #include "sensor_msgs/msg/image.hpp"
+#include <sensor_msgs/image_encodings.hpp>
 
 namespace image_sensor_broadcaster
 {
@@ -40,10 +41,6 @@ protected:
   using StatePublisher = realtime_tools::RealtimePublisher<sensor_msgs::msg::Image>;
   rclcpp::Publisher<sensor_msgs::msg::Image>::SharedPtr sensor_state_publisher_;
   std::unique_ptr<StatePublisher> realtime_publisher_;
-
-private:
-  std::array<std::string, 6>
-  interface_name_ = {"height", "width", "encoding", "is_bigendian", "step"};
 
 public:
   controller_interface::InterfaceConfiguration command_interface_configuration() const override;

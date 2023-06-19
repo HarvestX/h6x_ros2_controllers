@@ -1,31 +1,79 @@
 image_sensor_broadcaster:
-  sensor_name: {
-    type: string,
-    default_value: "image_sensor",
-    description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined.",
-  }
-  frame_id: {
-    type: string,
-    default_value: "",
-    description: "Sensor's frame_id in which values are published.",
-  }
-  height: {
-    type: int,
-    default_value: 0,
-  }
-  width: {
-    type: int,
-    default_value: 0,
-  }
-  encoding: {
-    type: string,
-    default_value: "",
-  }
-  is_bigendian: {
-    type: int,
-    default_value: 0,
-  }
-  step: {
-    type: int,
-    default_value: 0,
-  }
+  sensor_name:
+    type: string
+    default_value: "image_sensor"
+    description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined."
+  frame_id:
+    type: string
+    default_value: ""
+    description: "Sensor's frame_id in which values are published."
+  encoding:
+    type: string
+    default_value: "rgb8"
+    validation:
+      one_of<>:
+        [
+          [
+            "rgb8",
+            "rgba8",
+            "rgb16",
+            "rgba16",
+            "bgr8",
+            "bgra8",
+            "bgr16",
+            "bgra16",
+            "mono8",
+            "mono16",
+            "8UC1",
+            "8UC2",
+            "8UC3",
+            "8UC4",
+            "8SC1",
+            "8SC2",
+            "8SC3",
+            "8SC4",
+            "16UC2",
+            "16UC3",
+            "16UC4",
+            "16UC5",
+            "16SC2",
+            "16SC3",
+            "16SC4",
+            "16SC5",
+            "32SC2",
+            "32SC3",
+            "32SC4",
+            "32SC5",
+            "32FC2",
+            "32FC3",
+            "32FC4",
+            "32FC5",
+            "64FC2",
+            "64FC3",
+            "64FC4",
+            "64FC5",
+            "bayer_rggb8",
+            "bayer_bggr8",
+            "bayer_gbrg8",
+            "bayer_grbg8",
+            "bayer_rggb16",
+            "bayer_bggr16",
+            "bayer_gbrg16",
+            "bayer_grbg16",
+          ],
+        ]
+  is_bigendian:
+    type: bool
+    default_value: False
+  height:
+    type: int
+    default_value: 0
+    description: "Image height, that is, number of rows"
+    validation:
+      gt_eq<>: 0
+  width:
+    type: int
+    default_value: 0
+    description: "Image width, that is, number of columns"
+    validation:
+      gt_eq<>: 0

@@ -11,3 +11,48 @@
 // WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 // See the License for the specific language governing permissions and
 // limitations under the License.
+
+#pragma once
+
+#include <memory>
+#include <string>
+
+#include <gmock/gmock.h>
+
+#include <image_sensor_broadcaster/image_sensor_broadcaster.hpp>
+
+class FriendImageSensorBroadcaster
+  : public image_sensor_broadcaster::ImageSensorBroadcaster
+{
+  FRIEND_TEST(ImageSensorBroadcasterTest, SensorNameParameterNotSet);
+  FRIEND_TEST(ImageSensorBroadcasterTest, InterfaceNamesParameterNotSet);
+  FRIEND_TEST(ImageSensorBroadcasterTest, FrameIdParameterNotSet);
+  FRIEND_TEST(ImageSensorBroadcasterTest, SensorNameParameterIsEmpty);
+  FRIEND_TEST(ImageSensorBroadcasterTest, InterfaceNameParameterIsEmpty);
+
+  FRIEND_TEST(ImageSensorBroadcasterTest, ActivateSuccess);
+  FRIEND_TEST(ImageSensorBroadcasterTest, UpdateTest);
+  FRIEND_TEST(ImageSensorBroadcasterTest, SensorStatePublishTest);
+};
+
+
+class ImageSensorBroadcasterTest : public ::testing::Test
+{
+protected:
+  const std::string sensor_name_ = "img_sensor";
+  const std::string frame_id_ = "img_sensor_frame";
+  const std::string encoding_ = "rgb8";
+  const int height_ = 1, width_ = 16;
+  std::unique_ptr<FriendImageSensorBroadcaster> img_broadcaster_;
+
+public:
+  static void SetUpTestCase();
+  static void TearDownTestCase();
+
+  void SetUp();
+  void TearDown();
+
+  void SetUpImageBroadcaster();
+
+  void subscribe_and_get_message(sensor_msgs::msg::Image &);
+};

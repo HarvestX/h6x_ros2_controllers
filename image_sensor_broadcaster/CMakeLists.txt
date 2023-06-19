@@ -29,17 +29,15 @@ if(BUILD_TESTING)
   find_package(controller_manager REQUIRED)
   find_package(ros2_control_test_assets REQUIRED)
 
-  ament_add_gmock(test_load_image_sensor_broadcaster
+  add_rostest_with_parameters_gmock(test_load_image_sensor_broadcaster
     test/test_load_image_sensor_broadcaster.cpp
-  )
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/image_sensor_broadcaster_params.yaml)
   target_link_libraries(test_load_image_sensor_broadcaster
-    image_sensor_broadcaster
-  )
+    image_sensor_broadcaster)
   ament_target_dependencies(test_load_image_sensor_broadcaster
     controller_manager
     hardware_interface
-    ros2_control_test_assets
-  )
+    ros2_control_test_assets)
 
   ament_add_gmock(test_image_sensor_broadcaster
     test/test_image_sensor_broadcaster.cpp
@@ -48,8 +46,7 @@ if(BUILD_TESTING)
     image_sensor_broadcaster
   )
   ament_target_dependencies(test_image_sensor_broadcaster
-    hardware_interface
-  )
+    hardware_interface)
 endif()
 
 ament_auto_package()
