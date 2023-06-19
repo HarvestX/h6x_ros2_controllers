@@ -56,11 +56,6 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
   realtime_publisher_->msg_.is_bigendian = static_cast<uint8_t>(params_.is_bigendian);
   realtime_publisher_->msg_.step = static_cast<uint32_t>(params_.step);
 
-  size_t data_size = params_.step * params_.height;
-  for (size_t i = 0; i < data_size; i++) {
-    realtime_publisher_->msg_.data.push_back(static_cast<uint8_t>(params_.data[i]));
-  }
-
   realtime_publisher_->unlock();
 
   RCLCPP_DEBUG(get_node()->get_logger(), "configure successful");
