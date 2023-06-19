@@ -31,7 +31,7 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_init()
 }
 
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
-  const rclcpp_lifecycle::State & /*previous_state*/)
+  const rclcpp_lifecycle::State &)
 {
   params_ = param_listener_->get_params();
 
@@ -67,8 +67,8 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
   return CallbackReturn::SUCCESS;
 }
 
-controller_interface::InterfaceConfiguration ImageSensorBroadcaster::command_interface_configuration()
-const
+controller_interface::InterfaceConfiguration
+ImageSensorBroadcaster::command_interface_configuration() const
 {
   controller_interface::InterfaceConfiguration command_interfaces_config;
   command_interfaces_config.type = controller_interface::interface_configuration_type::NONE;
@@ -92,8 +92,7 @@ const
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_activate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  RCLCPP_INFO(
-    get_node()->get_logger(), "activating");
+  RCLCPP_INFO(get_node()->get_logger(), "activating");
   return CallbackReturn::SUCCESS;
 }
 
@@ -116,7 +115,7 @@ controller_interface::return_type ImageSensorBroadcaster::update(
 
   return controller_interface::return_type::OK;
 }
-} // namespace image_sensor_broadcaster
+}  // namespace image_sensor_broadcaster
 
 #include "pluginlib/class_list_macros.hpp"
 

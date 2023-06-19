@@ -29,7 +29,3 @@ image_sensor_broadcaster:
     type: int,
     default_value: 0,
   }
-  data: {
-    type: int_array,
-    default_value: [],
-  }
