@@ -9,7 +9,8 @@
         "/opt/ros/humble/include/**",
         "/opt/ros/humble/src/gmock_vendor/include/**",
         "/usr/include/**",
-        "${workspaceFolder}/../../install/image_sensor_broadcaster/include/**",
+        "${workspaceFolder}/../../install/image_sensor_broadcaster/include/image_sensor_broadcaster_parameters/**",
+        "${workspaceFolder}/h6x_ros2_controller_example/include/**",
         "${workspaceFolder}/image_sensor_broadcaster/include/**"
       ],
       "name": "ROS",

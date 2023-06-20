@@ -22,6 +22,20 @@
   "python.linting.flake8Enabled": true,
   "files.associations": {
     "*.repos": "yaml",
-    "/usr/include/c++/*": "cpp"
+    "/usr/include/c++/*": "cpp",
+    "*.ipp": "cpp",
+    "*.tcc": "cpp",
+    "fstream": "cpp",
+    "iosfwd": "cpp",
+    "istream": "cpp",
+    "limits": "cpp",
+    "shared_mutex": "cpp",
+    "sstream": "cpp",
+    "stop_token": "cpp",
+    "streambuf": "cpp",
+    "map": "cpp",
+    "system_error": "cpp",
+    "array": "cpp"
   },
+  "cmake.sourceDirectory": "/home/m12watanabe1a/ws_humble/src/h6x_ros2_controllers/h6x_ros2_controller_example",
 }

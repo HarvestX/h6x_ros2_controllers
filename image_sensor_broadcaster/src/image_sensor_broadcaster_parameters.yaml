@@ -1,11 +1,9 @@
 image_sensor_broadcaster:
   sensor_name:
     type: string
-    default_value: "image_sensor"
     description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined."
   frame_id:
     type: string
-    default_value: ""
     description: "Sensor's frame_id in which values are published."
   encoding:
     type: string
@@ -67,13 +65,11 @@ image_sensor_broadcaster:
     default_value: False
   height:
     type: int
-    default_value: 0
     description: "Image height, that is, number of rows"
     validation:
       gt_eq<>: 0
   width:
     type: int
-    default_value: 0
     description: "Image width, that is, number of columns"
     validation:
       gt_eq<>: 0

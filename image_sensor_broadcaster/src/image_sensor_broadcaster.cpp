@@ -36,6 +36,9 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
 {
   this->params_ = this->param_listener_->get_params();
 
+  this->image_sensor_ = std::make_unique<semantic_components::ImageSensor>(
+    semantic_components::ImageSensor(this->params_.sensor_name));
+
   try {
     // register ft sensor data publisher
     this->sensor_state_publisher_ =
@@ -60,7 +63,7 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
     static_cast<uint32_t>(this->params_.width *
     sensor_msgs::image_encodings::numChannels(this->params_.encoding));
 
-  this->realtime_publisher_->msg_.data.reserve(
+  this->realtime_publisher_->msg_.data.resize(
     realtime_publisher_->msg_.step * realtime_publisher_->msg_.height);
 
   realtime_publisher_->unlock();
@@ -82,19 +85,21 @@ const
 {
   controller_interface::InterfaceConfiguration state_interfaces_config;
   state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;
+  state_interfaces_config.names = this->image_sensor_->get_state_interface_names();
   return state_interfaces_config;
 }
 
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_activate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
-  RCLCPP_INFO(get_node()->get_logger(), "activating");
+  this->image_sensor_->assign_loaned_state_interfaces(this->state_interfaces_);
   return CallbackReturn::SUCCESS;
 }
 
 controller_interface::CallbackReturn ImageSensorBroadcaster::on_deactivate(
   const rclcpp_lifecycle::State & /*previous_state*/)
 {
+  this->image_sensor_->release_interfaces();
   return CallbackReturn::SUCCESS;
 }
 
@@ -103,7 +108,7 @@ controller_interface::return_type ImageSensorBroadcaster::update(
 {
   if (this->realtime_publisher_ && this->realtime_publisher_->trylock()) {
     this->realtime_publisher_->msg_.header.set__stamp(time);
-    // realtime_publisher_->msg_.set__data();
+    this->image_sensor_->get_value_as_message(this->realtime_publisher_->msg_);
     this->realtime_publisher_->unlockAndPublish();
   }
 

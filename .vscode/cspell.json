@@ -6,6 +6,7 @@
     "colcon",
     "coveragepy",
     "distro",
+    "isbc",
     "osrf",
     "PLUGINLIB",
     "rclcpp",
