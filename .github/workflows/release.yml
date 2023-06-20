@@ -13,8 +13,9 @@ on:
         type: choice
         description: Release target package name
         options:
-          - base_pkg
-          - pkg_1
+          - h6x_ros2_controller
+          - h6x_ros2_controller_example
+          - image_sensor_broadcaster
 jobs:
   release:
     name: Release
@@ -25,7 +26,7 @@ jobs:
         uses: HarvestX/ros2-release-ci-action@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          base_pkg: base_pkg
+          base_pkg: h6x_ros2_controller
         with:
           target-package: ${{ github.event.inputs.target }}
           version-fragment: ${{ github.event.inputs.fragment }}

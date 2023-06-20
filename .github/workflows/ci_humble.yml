@@ -33,5 +33,6 @@ jobs:
           import-token: ${{ secrets.H6X_REPO_TOKEN }}
           vcs-repo-file-url: build_depends.repos
           package-name: |
-            image_sensor_broadcaster
+            h6x_ros2_controller
             h6x_ros2_controller_example
+            image_sensor_broadcaster
