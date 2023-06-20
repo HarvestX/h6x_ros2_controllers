@@ -34,3 +34,4 @@ jobs:
           vcs-repo-file-url: build_depends.repos
           package-name: |
             image_sensor_broadcaster
+            h6x_ros2_controller_example
