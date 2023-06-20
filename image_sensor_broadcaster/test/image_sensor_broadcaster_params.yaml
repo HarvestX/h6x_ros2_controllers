@@ -2,3 +2,5 @@ test_image_sensor_broadcaster:
   ros__parameters:
     sensor_name: "image_sensor"
     frame_id: "image_sensor_frame"
+    width: 16
+    height: 1

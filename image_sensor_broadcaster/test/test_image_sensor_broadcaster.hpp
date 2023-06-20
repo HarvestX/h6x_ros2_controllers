@@ -14,6 +14,7 @@
 
 #pragma once
 
+#include <limits>
 #include <memory>
 #include <string>
 
@@ -43,7 +44,16 @@ protected:
   const std::string frame_id_ = "img_sensor_frame";
   const std::string encoding_ = "rgb8";
   const int height_ = 1, width_ = 16;
+
+  double image_value_ = std::numeric_limits<double>::quiet_NaN();
   std::unique_ptr<FriendImageSensorBroadcaster> img_broadcaster_;
+
+  hardware_interface::StateInterface image_data_ {
+    this->sensor_name_, "image", &this->image_value_};
+
+  std::string shm_key_;
+  std::unique_ptr<boost::interprocess::shared_memory_object> shm_;
+  std::unique_ptr<boost::interprocess::mapped_region> map_;
 
 public:
   static void SetUpTestCase();

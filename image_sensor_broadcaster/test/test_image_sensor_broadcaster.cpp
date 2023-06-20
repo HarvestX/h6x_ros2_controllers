@@ -14,7 +14,7 @@
 
 #include "test_image_sensor_broadcaster.hpp"
 
-
+#include <vector>
 #include <memory>
 #include <utility>
 
@@ -32,11 +32,22 @@ void ImageSensorBroadcasterTest::TearDownTestCase() {}
 void ImageSensorBroadcasterTest::SetUp()
 {
   this->img_broadcaster_ = std::make_unique<FriendImageSensorBroadcaster>();
+  this->shm_ = std::make_unique<boost::interprocess::shared_memory_object>(
+    boost::interprocess::open_or_create, (this->sensor_name_ + "-" + "image").c_str(),
+    boost::interprocess::read_write);
+
+  this->shm_->truncate(
+    this->height_ * this->width_ * sensor_msgs::image_encodings::numChannels(this->encoding_));
+  this->map_ = std::make_unique<boost::interprocess::mapped_region>(
+    *this->shm_, boost::interprocess::read_write);
 }
 
 void ImageSensorBroadcasterTest::TearDown()
 {
   this->img_broadcaster_.reset(nullptr);
+  this->map_.reset(nullptr);
+  boost::interprocess::shared_memory_object::remove(this->shm_->get_name());
+  this->shm_.reset(nullptr);
 }
 
 
@@ -44,6 +55,10 @@ void ImageSensorBroadcasterTest::SetUpImageBroadcaster()
 {
   const auto result = this->img_broadcaster_->init("test_image_sensor_broadcaster");
   ASSERT_EQ(result, controller_interface::return_type::OK);
+  std::vector<hardware_interface::LoanedStateInterface> state_ifs;
+  state_ifs.emplace_back(this->image_data_);
+
+  this->img_broadcaster_->assign_interfaces({}, std::move(state_ifs));
 }
 
 
