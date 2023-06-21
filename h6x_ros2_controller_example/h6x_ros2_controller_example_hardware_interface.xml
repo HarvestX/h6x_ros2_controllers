@@ -1,0 +1,10 @@
+<library path="h6x_ros2_controller_example">
+  <class
+      name="h6x_ros2_controller_example/FakeCameraSensorInterface"
+      type="h6x_ros2_controller_example::FakeCameraSensorInterface"
+      base_class_type="hardware_interface::SensorInterface">
+    <description>
+      A fake camera hardware plugin for the ros2_control.
+    </description>
+  </class>
+</library>

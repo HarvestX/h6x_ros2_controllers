@@ -30,7 +30,9 @@ jobs:
         uses: ros-tooling/action-ros-ci@v0.2
         with:
           target-ros2-distro: ${{ matrix.ros_distribution }}
-          import-token: ${{ secrets.GITHUB_TOKEN }}
+          import-token: ${{ secrets.H6X_REPO_TOKEN }}
           vcs-repo-file-url: build_depends.repos
           package-name: |
-            package
+            h6x_ros2_controller
+            h6x_ros2_controller_example
+            image_sensor_broadcaster

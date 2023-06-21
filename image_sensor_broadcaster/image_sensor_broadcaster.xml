@@ -1,0 +1,10 @@
+<library path="image_sensor_broadcaster">
+  <class
+      name="image_sensor_broadcaster/ImageSensorBroadcaster"
+      type="image_sensor_broadcaster::ImageSensorBroadcaster"
+      base_class_type="controller_interface::ControllerInterface">
+    <description>
+      This controller publishes the readings of an Image sensor as sensor_msgs/Image message.
+    </description>
+  </class>
+</library>

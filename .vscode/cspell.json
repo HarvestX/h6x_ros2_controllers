@@ -2,10 +2,15 @@
   "language": "en",
   "version": "0.2",
   "words": [
+    "bigendian",
     "colcon",
     "coveragepy",
     "distro",
+    "isbc",
     "osrf",
+    "PLUGINLIB",
+    "rclcpp",
+    "urdf",
     "vcstool"
   ]
 }
