@@ -36,13 +36,10 @@ FakeBatteryInterface::CallbackReturn FakeBatteryInterface::on_init(
 FakeBatteryInterface::CallbackReturn FakeBatteryInterface::on_configure(
   const rclcpp_lifecycle::State &)
 {
-  double x = 0;
   for (uint i = 0; i < hw_states_.size(); i++) {
-    hw_states_[i] = x;
-    x += 0.1;
+    hw_states_[i] = 0;
   }
 
-  RCLCPP_INFO(rclcpp::get_logger("FakeBattery"), "Successfully configured!");
   return CallbackReturn::SUCCESS;
 }
 
@@ -67,6 +64,13 @@ std::vector<hardware_interface::StateInterface> FakeBatteryInterface::export_sta
 hardware_interface::return_type FakeBatteryInterface::read(
   const rclcpp::Time &, const rclcpp::Duration &)
 {
+  // read battery data
+  hw_states_[0] = 3.3;
+  hw_states_[1] = 24.4;
+  hw_states_[2] = 0.4;
+  hw_states_[3] = 24;
+  hw_states_[4] = 4.7;
+  hw_states_[5] = 0.6;
 
   return hardware_interface::return_type::OK;
 }

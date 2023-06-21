@@ -31,7 +31,7 @@ private:
 
   std::vector<double> hw_states_;
 
-  std::array<std::string, 6> state_interface_names = {
+  const std::array<std::string, 6> state_interface_names = {
     "voltage", "temperature", "current", "charge", "capacity", "percentage"
   };
 
