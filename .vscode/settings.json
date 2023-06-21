@@ -22,6 +22,6 @@
   "python.linting.flake8Enabled": true,
   "files.associations": {
     "*.repos": "yaml",
-    "/usr/include/c++/*": "cpp"
+    "/usr/include/c++/**": "cpp"
   }
 }
