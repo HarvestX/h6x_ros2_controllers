@@ -56,6 +56,7 @@ controller_interface::CallbackReturn BatteryStateBroadcaster::on_configure(
 
   this->realtime_publisher_->lock();
 
+  this->realtime_publisher_->msg_.header.frame_id = this->params_.frame_id;
   this->realtime_publisher_->msg_.voltage = this->params_.voltage;
   this->realtime_publisher_->msg_.temperature = this->params_.temperature;
   this->realtime_publisher_->msg_.current = this->params_.current;

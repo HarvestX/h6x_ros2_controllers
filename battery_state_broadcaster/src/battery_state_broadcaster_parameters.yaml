@@ -3,6 +3,10 @@ battery_state_broadcaster:
     type: string
     description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined."
     default_value: "battery_sensor"
+  frame_id:
+    type: string
+    description: "Sensor's frame_id in which values are published."
+    default_value: "base_link"
   voltage:
     type: double
     description: "Voltage in Volts (Mandatory)"

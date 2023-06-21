@@ -25,28 +25,28 @@ pluginlib_export_plugin_description_file(
 
 # Testing ===========================================================
 if(BUILD_TESTING)
-  # find_package(ament_cmake_gmock REQUIRED)
-  # find_package(controller_manager REQUIRED)
-  # find_package(ros2_control_test_assets REQUIRED)
+  find_package(ament_cmake_gmock REQUIRED)
+  find_package(controller_manager REQUIRED)
+  find_package(ros2_control_test_assets REQUIRED)
 
-  # add_rostest_with_parameters_gmock(test_load_battery_state_broadcaster
-  #   test/test_load_battery_state_broadcaster.cpp
-  #   ${CMAKE_CURRENT_SOURCE_DIR}/test/battery_state_broadcaster_params.yaml)
-  # target_link_libraries(test_load_battery_state_broadcaster
-  # battery_state_broadcaster)
-  # ament_target_dependencies(test_load_battery_state_broadcaster
-  #   controller_manager
-  #   hardware_interface
-  #   ros2_control_test_assets)
+  add_rostest_with_parameters_gmock(test_load_battery_state_broadcaster
+    test/test_load_battery_state_broadcaster.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/battery_state_broadcaster_params.yaml)
+  target_link_libraries(test_load_battery_state_broadcaster
+  battery_state_broadcaster)
+  ament_target_dependencies(test_load_battery_state_broadcaster
+    controller_manager
+    hardware_interface
+    ros2_control_test_assets)
 
-  # ament_add_gmock(test_battery_state_broadcaster
-  #   test/test_battery_state_broadcaster.cpp
-  # )
-  # target_link_libraries(test_battery_state_broadcaster
-  # battery_state_broadcaster
-  # )
-  # ament_target_dependencies(test_battery_state_broadcaster
-  #   hardware_interface)
+  ament_add_gmock(test_battery_state_broadcaster
+    test/test_battery_state_broadcaster.cpp
+  )
+  target_link_libraries(test_battery_state_broadcaster
+  battery_state_broadcaster
+  )
+  ament_target_dependencies(test_battery_state_broadcaster
+    hardware_interface)
 endif()
 
 ament_auto_package()
