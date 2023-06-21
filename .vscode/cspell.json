@@ -3,6 +3,7 @@
   "version": "0.2",
   "words": [
     "bigendian",
+    "bsbc",
     "colcon",
     "coveragepy",
     "distro",
@@ -11,6 +12,7 @@
     "PLUGINLIB",
     "rclcpp",
     "urdf",
-    "vcstool"
+    "vcstool",
+    "xacro"
   ]
 }

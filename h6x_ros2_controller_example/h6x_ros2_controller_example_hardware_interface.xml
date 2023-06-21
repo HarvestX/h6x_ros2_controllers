@@ -7,4 +7,12 @@
       A fake camera hardware plugin for the ros2_control.
     </description>
   </class>
+  <class
+      name="h6x_ros2_controller_example/FakeBatteryInterface"
+      type="h6x_ros2_controller_example::FakeBatteryInterface"
+      base_class_type="hardware_interface::SensorInterface">
+    <description>
+      A battery hardware plugin for the ros2_control.
+    </description>
+  </class>
 </library>
