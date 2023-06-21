@@ -36,3 +36,4 @@ jobs:
             h6x_ros2_controller
             h6x_ros2_controller_example
             image_sensor_broadcaster
+            battery_state_broadcaster
