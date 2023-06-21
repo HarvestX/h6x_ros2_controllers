@@ -57,12 +57,12 @@ controller_interface::CallbackReturn BatteryStateBroadcaster::on_configure(
   this->realtime_publisher_->lock();
 
   this->realtime_publisher_->msg_.header.frame_id = this->params_.frame_id;
-  this->realtime_publisher_->msg_.voltage = this->params_.voltage;
-  this->realtime_publisher_->msg_.temperature = this->params_.temperature;
-  this->realtime_publisher_->msg_.current = this->params_.current;
-  this->realtime_publisher_->msg_.charge = this->params_.charge;
-  this->realtime_publisher_->msg_.capacity = this->params_.capacity;
-  this->realtime_publisher_->msg_.percentage = this->params_.percentage;
+  this->realtime_publisher_->msg_.design_capacity = this->params_.design_capacity;
+  this->realtime_publisher_->msg_.power_supply_status = this->params_.power_supply_status;
+  this->realtime_publisher_->msg_.power_supply_health = this->params_.power_supply_health;
+  this->realtime_publisher_->msg_.power_supply_technology = this->params_.power_supply_technology;
+  this->realtime_publisher_->msg_.location = this->params_.location;
+  this->realtime_publisher_->msg_.serial_number = this->params_.serial_number;
 
   realtime_publisher_->unlock();
 
@@ -78,8 +78,8 @@ BatteryStateBroadcaster::command_interface_configuration() const
   return command_interfaces_config;
 }
 
-controller_interface::InterfaceConfiguration BatteryStateBroadcaster::state_interface_configuration()
-const
+controller_interface::InterfaceConfiguration
+BatteryStateBroadcaster::state_interface_configuration() const
 {
   controller_interface::InterfaceConfiguration state_interfaces_config;
   state_interfaces_config.type = controller_interface::interface_configuration_type::INDIVIDUAL;

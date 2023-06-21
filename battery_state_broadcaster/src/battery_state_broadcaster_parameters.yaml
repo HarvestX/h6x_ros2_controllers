@@ -7,27 +7,33 @@ battery_state_broadcaster:
     type: string
     description: "Sensor's frame_id in which values are published."
     default_value: "base_link"
-  voltage:
+  design_capacity:
     type: double
-    description: "Voltage in Volts (Mandatory)"
+    description: "Capacity in in Ah (design capacity) (If unmeasured NaN)"
+    default_value: .NAN
+  power_supply_status:
+    type: int
+    description: "The charging status as reported."
+    default_value: 2
+    validation:
+      bounds<>: [0, 4]
+  power_supply_health:
+    type: int
+    description: "The battery health metric."
+    default_value: 1
+    validation:
+      bounds<>: [0, 8]
+  power_supply_technology:
+    type: int
+    description: "The battery chemistry."
     default_value: 0
-  temperature:
-    type: double
-    description: "Temperature in Degrees Celsius (If unmeasured NaN)"
-    default_value: 0
-  current:
-    type: double
-    description: "Negative when discharging (A)  (If unmeasured NaN)"
-    default_value: 0
-  charge:
-    type: double
-    description: "Current charge in Ah  (If unmeasured NaN)"
-    default_value: 0
-  capacity:
-    type: double
-    description: "Capacity in Ah (last full capacity)  (If unmeasured NaN)"
-    default_value: 0
-  percentage:
-    type: double
-    description: "Charge percentage on 0 to 1 range  (If unmeasured NaN)"
-    default_value: 0
+    validation:
+      bounds<>: [0, 6]
+  location:
+    type: string
+    description: "The location into which the battery is inserted. (slot number or plug)"
+    default_value: ""
+  serial_number:
+    type: string
+    description: "The best approximation of the battery serial number"
+    default_value: ""

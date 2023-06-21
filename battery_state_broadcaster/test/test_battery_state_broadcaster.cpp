@@ -136,8 +136,6 @@ TEST_F(BatteryStateBroadcasterTest, SensorName_Publish_Success)
   subscribe_and_get_message(btr_msg);
 
   EXPECT_EQ(btr_msg.header.frame_id, this->frame_id_);
-
-  // ASSERT_FALSE(true);
 }
 
 int main(int argc, char ** argv)

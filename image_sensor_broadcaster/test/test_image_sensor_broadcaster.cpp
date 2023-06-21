@@ -155,9 +155,6 @@ TEST_F(ImageSensorBroadcasterTest, SensorName_Publish_Success)
   ASSERT_EQ(
     img_msg.step, static_cast<uint32_t>(
       this->width_ * sensor_msgs::image_encodings::numChannels(this->encoding_)));
-
-  printf("Data size %lu", img_msg.data.size());
-  // ASSERT_FALSE(true);
 }
 
 int main(int argc, char ** argv)

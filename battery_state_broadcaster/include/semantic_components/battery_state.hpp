@@ -27,7 +27,7 @@ class BatteryState : public SemanticComponentInterface<sensor_msgs::msg::Battery
 {
 public:
   explicit BatteryState(const std::string & name)
-  : SemanticComponentInterface(name, 1)
+  : SemanticComponentInterface(name, 6)
   {
     this->interface_names_.emplace_back(this->name_ + "/" + "voltage");
     this->interface_names_.emplace_back(this->name_ + "/" + "temperature");
