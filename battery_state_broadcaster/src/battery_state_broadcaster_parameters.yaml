@@ -1,0 +1,29 @@
+battery_state_broadcaster:
+  sensor_name:
+    type: string
+    description: "Name of the sensor used as prefix for interfaces if there are no individual interface names defined."
+    default_value: "battery_sensor"
+  voltage:
+    type: double
+    description: "Voltage in Volts (Mandatory)"
+    default_value: 0
+  temperature:
+    type: double
+    description: "Temperature in Degrees Celsius (If unmeasured NaN)"
+    default_value: 0
+  current:
+    type: double
+    description: "Negative when discharging (A)  (If unmeasured NaN)"
+    default_value: 0
+  charge:
+    type: double
+    description: "Current charge in Ah  (If unmeasured NaN)"
+    default_value: 0
+  capacity:
+    type: double
+    description: "Capacity in Ah (last full capacity)  (If unmeasured NaN)"
+    default_value: 0
+  percentage:
+    type: double
+    description: "Charge percentage on 0 to 1 range  (If unmeasured NaN)"
+    default_value: 0
