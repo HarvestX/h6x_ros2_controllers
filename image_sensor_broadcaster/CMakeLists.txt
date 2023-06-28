@@ -13,7 +13,7 @@ set(TARGET ${PROJECT_NAME}_parameters)
 generate_parameter_library(${TARGET} src/${TARGET}.yaml)
 
 # ROS2 Controller Plugin ============================================
-set(TARGET image_sensor_broadcaster)
+set(TARGET ${PROJECT_NAME})
 ament_auto_add_library(${TARGET} SHARED src/${TARGET}.cpp)
 target_link_libraries(${TARGET} ${TARGET}_parameters)
 pluginlib_export_plugin_description_file(controller_interface ${TARGET}.xml)
@@ -25,7 +25,7 @@ if(BUILD_TESTING)
   set(ament_cmake_cpplint_FOUND TRUE)
   ament_lint_auto_find_test_dependencies()
 
-  set(TARGET test_load_image_sensor_broadcaster)
+  set(TARGET test_load_${PROJECT_NAME})
   add_rostest_with_parameters_gmock(${TARGET} test/${TARGET}.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/test/${TARGET}_params.yaml)
   target_link_libraries(${TARGET}
@@ -34,7 +34,7 @@ if(BUILD_TESTING)
     ${${PROJECT_NAME}_FOUND_BUILD_DEPENDS}
     ${${PROJECT_NAME}_FOUND_TEST_DEPENDS})
 
-  set(TARGET test_image_sensor_broadcaster)
+  set(TARGET test_${PROJECT_NAME})
   ament_add_gmock(${TARGET} test/${TARGET}.cpp)
   target_link_libraries(${TARGET} ${${PROJECT_NAME}_LIBRARIES})
   ament_target_dependencies(${TARGET}
