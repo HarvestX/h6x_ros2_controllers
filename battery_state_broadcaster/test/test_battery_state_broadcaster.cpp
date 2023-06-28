@@ -34,7 +34,7 @@ void BatteryStateBroadcasterTest::SetUp()
   this->btr_broadcaster_ = std::make_unique<FriendBatteryStateBroadcaster>();
   this->values_.resize(6, std::numeric_limits<double>::quiet_NaN());
 
-  for (uint i = 0; i < 6; i++) {
+  for (uint i = 0; i < this->state_interface_names.size(); i++) {
     state_interfaces_.emplace_back(
       hardware_interface::StateInterface(
         this->sensor_name_, this->state_interface_names[i], &this->values_[i]));
@@ -66,7 +66,7 @@ void BatteryStateBroadcasterTest::subscribe_and_get_message(
   rclcpp::Node test_subscription_node("test_subscription_node");
   auto subs_callback = [&](const sensor_msgs::msg::BatteryState::SharedPtr) {};
   auto subscription = test_subscription_node.create_subscription<sensor_msgs::msg::BatteryState>(
-    "/test_battery_state_broadcaster/battery", rclcpp::SensorDataQoS(), subs_callback);
+    "/test_battery_state_broadcaster/battery_state", rclcpp::SensorDataQoS(), subs_callback);
 
   int max_sub_check_loop_count = 5;
   rclcpp::WaitSet wait_set;

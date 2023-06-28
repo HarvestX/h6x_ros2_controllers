@@ -37,14 +37,13 @@ controller_interface::CallbackReturn BatteryStateBroadcaster::on_configure(
   this->params_ = this->param_listener_->get_params();
 
   this->battery_state_ = std::make_unique<semantic_components::BatteryState>(
-    semantic_components::BatteryState(this->params_.sensor_name));
+    semantic_components::BatteryState(this->params_.sensor_name, this->params_.state_interfaces));
 
   try {
     // register ft sensor data publisher
     this->sensor_state_publisher_ =
       get_node()->create_publisher<sensor_msgs::msg::BatteryState>(
-      "~/battery",
-      rclcpp::SensorDataQoS());
+      "~/battery_state", rclcpp::SensorDataQoS());
     this->realtime_publisher_ = std::make_unique<StatePublisher>(this->sensor_state_publisher_);
   } catch (const std::exception & e) {
     RCLCPP_ERROR(
@@ -58,6 +57,12 @@ controller_interface::CallbackReturn BatteryStateBroadcaster::on_configure(
 
   this->realtime_publisher_->msg_.header.frame_id = this->params_.frame_id;
   this->realtime_publisher_->msg_.design_capacity = this->params_.design_capacity;
+  this->realtime_publisher_->msg_.voltage = std::numeric_limits<float>::quiet_NaN();
+  this->realtime_publisher_->msg_.temperature = std::numeric_limits<float>::quiet_NaN();
+  this->realtime_publisher_->msg_.charge = std::numeric_limits<float>::quiet_NaN();
+  this->realtime_publisher_->msg_.current = std::numeric_limits<float>::quiet_NaN();
+  this->realtime_publisher_->msg_.capacity = std::numeric_limits<float>::quiet_NaN();
+  this->realtime_publisher_->msg_.percentage = std::numeric_limits<float>::quiet_NaN();
   this->realtime_publisher_->msg_.power_supply_status = this->params_.power_supply_status;
   this->realtime_publisher_->msg_.power_supply_health = this->params_.power_supply_health;
   this->realtime_publisher_->msg_.power_supply_technology = this->params_.power_supply_technology;

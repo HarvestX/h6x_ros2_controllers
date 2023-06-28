@@ -17,6 +17,7 @@
 #include <limits>
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <gmock/gmock.h>
 
@@ -42,12 +43,12 @@ class BatteryStateBroadcasterTest : public ::testing::Test
 protected:
   const std::string sensor_name_ = "btr_sensor";
   const std::string frame_id_ = "btr_frame";
-  const _Float32 voltage_ = 3.4;
-  const _Float32 temperature_ = 24.5;
-  const _Float32 current_ = 0.5;
-  const _Float32 charge_ = 24.1;
-  const _Float32 capacity_ = 4.8;
-  const _Float32 percentage_ = 0.7;
+  const float voltage_ = 3.4;
+  const float temperature_ = 24.5;
+  const float current_ = 0.5;
+  const float charge_ = 24.1;
+  const float capacity_ = 4.8;
+  const float percentage_ = 0.7;
 
   const std::array<std::string, 6> state_interface_names = {
     "voltage", "temperature", "current", "charge", "capacity", "percentage"

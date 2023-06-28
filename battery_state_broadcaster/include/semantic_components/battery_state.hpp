@@ -16,6 +16,7 @@
 
 #include <memory>
 #include <string>
+#include <vector>
 
 #include <rclcpp/rclcpp.hpp>
 #include <semantic_components/semantic_component_interface.hpp>
@@ -26,28 +27,35 @@ namespace semantic_components
 class BatteryState : public SemanticComponentInterface<sensor_msgs::msg::BatteryState>
 {
 public:
-  explicit BatteryState(const std::string & name)
-  : SemanticComponentInterface(name, 6)
+  explicit BatteryState(const std::string & name, const std::vector<std::string> & interfaces)
+  : SemanticComponentInterface(name, interfaces.size())
   {
-    this->interface_names_.emplace_back(this->name_ + "/" + "voltage");
-    this->interface_names_.emplace_back(this->name_ + "/" + "temperature");
-    this->interface_names_.emplace_back(this->name_ + "/" + "current");
-    this->interface_names_.emplace_back(this->name_ + "/" + "charge");
-    this->interface_names_.emplace_back(this->name_ + "/" + "capacity");
-    this->interface_names_.emplace_back(this->name_ + "/" + "percentage");
+    for (const auto & interface : interfaces) {
+      this->interface_names_.emplace_back(this->name_ + "/" + interface);
+    }
   }
 
   virtual ~BatteryState() = default;
 
   bool get_value_as_message(sensor_msgs::msg::BatteryState & message)
   {
-    message.voltage = state_interfaces_[0].get().get_value();
-    message.temperature = state_interfaces_[1].get().get_value();
-    message.current = state_interfaces_[2].get().get_value();
-    message.charge = state_interfaces_[3].get().get_value();
-    message.capacity = state_interfaces_[4].get().get_value();
-    message.percentage = state_interfaces_[5].get().get_value();
-
+    for (const auto & state_interface : this->state_interfaces_) {
+      const auto & name = state_interface.get().get_name();
+      const auto & value = state_interface.get().get_value();
+      if (name == "voltage") {
+        message.voltage = value;
+      } else if (name == "temperature") {
+        message.temperature = value;
+      } else if (name == "charge") {
+        message.charge = value;
+      } else if (name == "current") {
+        message.current = value;
+      } else if (name == "capacity") {
+        message.capacity = value;
+      } else if (name == "percentage") {
+        message.percentage = value;
+      }
+    }
     return false;
   }
 };
