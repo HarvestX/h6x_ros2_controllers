@@ -8,45 +8,38 @@ endif()
 find_package(ament_cmake_auto REQUIRED)
 ament_auto_find_build_dependencies()
 
-generate_parameter_library(image_sensor_broadcaster_parameters
-  src/image_sensor_broadcaster_parameters.yaml
-)
+# Parameters Library ================================================
+set(TARGET ${PROJECT_NAME}_parameters)
+generate_parameter_library(${TARGET} src/${TARGET}.yaml)
 
-ament_auto_add_library(image_sensor_broadcaster
-  SHARED
-  src/image_sensor_broadcaster.cpp
-)
-target_link_libraries(image_sensor_broadcaster
-  image_sensor_broadcaster_parameters
-)
-
-pluginlib_export_plugin_description_file(
-  controller_interface image_sensor_broadcaster.xml)
+# ROS2 Controller Plugin ============================================
+set(TARGET image_sensor_broadcaster)
+ament_auto_add_library(${TARGET} SHARED src/${TARGET}.cpp)
+target_link_libraries(${TARGET} ${TARGET}_parameters)
+pluginlib_export_plugin_description_file(controller_interface ${TARGET}.xml)
 
 # Testing ===========================================================
 if(BUILD_TESTING)
-  find_package(ament_cmake_gmock REQUIRED)
-  find_package(controller_manager REQUIRED)
-  find_package(ros2_control_test_assets REQUIRED)
+  find_package(ament_lint_auto REQUIRED)
+  set(ament_cmake_copyright_FOUND TRUE)
+  set(ament_cmake_cpplint_FOUND TRUE)
+  ament_lint_auto_find_test_dependencies()
 
-  add_rostest_with_parameters_gmock(test_load_image_sensor_broadcaster
-    test/test_load_image_sensor_broadcaster.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/test/image_sensor_broadcaster_params.yaml)
-  target_link_libraries(test_load_image_sensor_broadcaster
-    image_sensor_broadcaster)
-  ament_target_dependencies(test_load_image_sensor_broadcaster
-    controller_manager
-    hardware_interface
-    ros2_control_test_assets)
+  set(TARGET test_load_image_sensor_broadcaster)
+  add_rostest_with_parameters_gmock(${TARGET} test/${TARGET}.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/test/${TARGET}_params.yaml)
+  target_link_libraries(${TARGET}
+    ${${PROJECT_NAME}_LIBRARIES})
+  ament_target_dependencies(${TARGET}
+    ${${PROJECT_NAME}_FOUND_BUILD_DEPENDS}
+    ${${PROJECT_NAME}_FOUND_TEST_DEPENDS})
 
-  ament_add_gmock(test_image_sensor_broadcaster
-    test/test_image_sensor_broadcaster.cpp
-  )
-  target_link_libraries(test_image_sensor_broadcaster
-    image_sensor_broadcaster
-  )
-  ament_target_dependencies(test_image_sensor_broadcaster
-    hardware_interface)
+  set(TARGET test_image_sensor_broadcaster)
+  ament_add_gmock(${TARGET} test/${TARGET}.cpp)
+  target_link_libraries(${TARGET} ${${PROJECT_NAME}_LIBRARIES})
+  ament_target_dependencies(${TARGET}
+    ${${PROJECT_NAME}_FOUND_BUILD_DEPENDS}
+    ${${PROJECT_NAME}_FOUND_TEST_DEPENDS})
 endif()
 
 ament_auto_package()
