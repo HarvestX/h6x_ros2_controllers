@@ -40,7 +40,7 @@ public:
   bool get_value_as_message(sensor_msgs::msg::BatteryState & message)
   {
     for (const auto & state_interface : this->state_interfaces_) {
-      const auto & name = state_interface.get().get_name();
+      const auto & name = state_interface.get().get_interface_name();
       const auto & value = state_interface.get().get_value();
       if (name == "voltage") {
         message.voltage = value;

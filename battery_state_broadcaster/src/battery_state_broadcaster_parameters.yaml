@@ -8,7 +8,7 @@ battery_state_broadcaster:
     default_value: ["percentage"]
     validation:
       not_empty<>: []
-      size_lt<>: 6
+      size_lt<>: 7
       subset_of<>:
         [
           [
