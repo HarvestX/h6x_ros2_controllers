@@ -30,7 +30,7 @@ jobs:
         uses: ros-tooling/action-ros-ci@v0.2
         with:
           target-ros2-distro: ${{ matrix.ros_distribution }}
-          import-token: ${{ secrets.H6X_REPO_TOKEN }}
+          import-token: ${{ secrets.GITHUB_TOKEN }}
           vcs-repo-file-url: build_depends.repos
           package-name: |
             h6x_ros2_controller
