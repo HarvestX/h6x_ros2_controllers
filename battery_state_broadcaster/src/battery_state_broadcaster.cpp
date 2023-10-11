@@ -112,6 +112,12 @@ controller_interface::return_type BatteryStateBroadcaster::update(
   if (this->realtime_publisher_ && this->realtime_publisher_->trylock()) {
     this->realtime_publisher_->msg_.header.set__stamp(time);
     this->battery_state_->get_value_as_message(this->realtime_publisher_->msg_);
+
+    this->realtime_publisher_->msg_.power_supply_status =
+      this->realtime_publisher_->msg_.current < 0.0 ?
+      sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_DISCHARGING :
+      sensor_msgs::msg::BatteryState::POWER_SUPPLY_STATUS_CHARGING;
+
     this->realtime_publisher_->unlockAndPublish();
   }
 
