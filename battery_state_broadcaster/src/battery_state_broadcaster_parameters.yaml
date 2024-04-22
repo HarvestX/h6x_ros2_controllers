@@ -18,6 +18,7 @@ battery_state_broadcaster:
             "charge",
             "capacity",
             "percentage",
+            "power_supply_status",
           ],
         ]
   frame_id:

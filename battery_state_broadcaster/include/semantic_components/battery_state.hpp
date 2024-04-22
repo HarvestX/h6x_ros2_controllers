@@ -54,6 +54,8 @@ public:
         message.capacity = value;
       } else if (name == "percentage") {
         message.percentage = value;
+      } else if (name == "power_supply_status") {
+        message.power_supply_status = static_cast<uint8_t>(value);
       }
     }
     return false;
