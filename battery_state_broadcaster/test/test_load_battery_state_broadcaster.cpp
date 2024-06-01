@@ -30,6 +30,7 @@ TEST(TestLoadBatteryStateBroadcaster, load_controller)
   <ros2_control name="BatteryInterface" type="sensor">
     <hardware>
       <plugin>mock_components/GenericSystem</plugin>
+      <param name="mock_sensor_commands">true</param>
     </hardware>
     <sensor name="battery_sensor">
       <state_interface name="percentage" />
