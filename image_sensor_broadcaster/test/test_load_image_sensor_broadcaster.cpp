@@ -29,8 +29,7 @@ TEST(TestLoadImageSensorBroadcaster, load_controller)
     R"(
   <ros2_control name="BatteryInterface" type="sensor">
     <hardware>
-      <plugin>mock_components/GenericSystem</plugin>
-      <param name="mock_sensor_commands">true</param>
+      <plugin>h6x_ros2_controller_example/FakeCameraSensorInterface</plugin>
     </hardware>
     <sensor name="image_sensor">
       <state_interface name="image" />

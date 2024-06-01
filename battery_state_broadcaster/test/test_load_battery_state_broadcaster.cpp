@@ -29,13 +29,15 @@ TEST(TestLoadBatteryStateBroadcaster, load_controller)
     R"(
   <ros2_control name="BatteryInterface" type="sensor">
     <hardware>
-      <plugin>mock_components/GenericSystem</plugin>
-      <param name="mock_sensor_commands">true</param>
+      <plugin>h6x_ros2_controller_example/FakeBatteryInterface</plugin>
     </hardware>
     <sensor name="battery_sensor">
-      <state_interface name="percentage" />
-      <state_interface name="current" />
-      <state_interface name="voltage" />
+      <state_interface name="voltage"/>
+      <state_interface name="temperature"/>
+      <state_interface name="current"/>
+      <state_interface name="charge"/>
+      <state_interface name="capacity"/>
+      <state_interface name="percentage"/>
     </sensor>
   </ros2_control>
 )";
