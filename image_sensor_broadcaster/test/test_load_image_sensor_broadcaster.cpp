@@ -25,12 +25,27 @@
 
 TEST(TestLoadImageSensorBroadcaster, load_controller)
 {
+  const std::string image_sensor_interface =
+    R"(
+  <ros2_control name="BatteryInterface" type="sensor">
+    <hardware>
+      <plugin>mock_components/GenericSystem</plugin>
+    </hardware>
+    <sensor name="image_sensor">
+      <state_interface name="image" />
+    </sensor>
+  </ros2_control>
+)";
+
+  const auto & urdf = ros2_control_test_assets::urdf_head + image_sensor_interface +
+    ros2_control_test_assets::urdf_tail;
+
   std::shared_ptr<rclcpp::Executor> executor =
     std::make_shared<rclcpp::executors::SingleThreadedExecutor>();
 
   controller_manager::ControllerManager cm(
     std::make_unique<hardware_interface::ResourceManager>(
-      ros2_control_test_assets::minimal_robot_urdf),
+    ),
     executor, "test_controller_manager");
 
   ASSERT_NE(
