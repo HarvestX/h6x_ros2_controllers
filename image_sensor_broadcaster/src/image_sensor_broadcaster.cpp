@@ -42,7 +42,9 @@ controller_interface::CallbackReturn ImageSensorBroadcaster::on_configure(
   try {
     // register ft sensor data publisher
     this->sensor_state_publisher_ =
-      get_node()->create_publisher<sensor_msgs::msg::Image>("~/image", rclcpp::SensorDataQoS());
+      get_node()->create_publisher<sensor_msgs::msg::Image>(
+      "~/image",
+      rclcpp::QoS(rclcpp::KeepLast(1)).reliable().durability_volatile());
     this->realtime_publisher_ = std::make_unique<StatePublisher>(this->sensor_state_publisher_);
   } catch (const std::exception & e) {
     RCLCPP_ERROR(
