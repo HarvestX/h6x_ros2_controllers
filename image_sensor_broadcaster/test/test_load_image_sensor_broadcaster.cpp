@@ -17,8 +17,10 @@
 
 #include <controller_manager/controller_manager.hpp>
 #include <hardware_interface/resource_manager.hpp>
+#include <rclcpp/clock.hpp>
 #include <rclcpp/executor.hpp>
 #include <rclcpp/executors/single_threaded_executor.hpp>
+#include <rclcpp/logger.hpp>
 #include <rclcpp/utilities.hpp>
 #include <ros2_control_test_assets/descriptions.hpp>
 
@@ -45,7 +47,8 @@ TEST(TestLoadImageSensorBroadcaster, load_controller)
 
   controller_manager::ControllerManager cm(
     std::make_unique<hardware_interface::ResourceManager>(
-    ),
+      std::make_shared<rclcpp::Clock>(RCL_ROS_TIME),
+      rclcpp::get_logger("test_controller_manager")),
     executor, "test_controller_manager");
 
   ASSERT_NE(

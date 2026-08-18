@@ -53,7 +53,9 @@ void ImageSensorBroadcasterTest::TearDown()
 
 void ImageSensorBroadcasterTest::SetUpImageBroadcaster()
 {
-  const auto result = this->img_broadcaster_->init("test_image_sensor_broadcaster");
+  const auto result = this->img_broadcaster_->init(
+    "test_image_sensor_broadcaster", "", 100, "",
+    this->img_broadcaster_->define_custom_node_options());
   ASSERT_EQ(result, controller_interface::return_type::OK);
   std::vector<hardware_interface::LoanedStateInterface> state_ifs;
   state_ifs.emplace_back(this->image_data_);

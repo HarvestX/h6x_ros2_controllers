@@ -49,7 +49,9 @@ void BatteryStateBroadcasterTest::TearDown()
 
 void BatteryStateBroadcasterTest::SetUpBatteryBroadcaster()
 {
-  const auto result = this->btr_broadcaster_->init("test_battery_state_broadcaster");
+  const auto result = this->btr_broadcaster_->init(
+    "test_battery_state_broadcaster", "", 100, "",
+    this->btr_broadcaster_->define_custom_node_options());
   ASSERT_EQ(result, controller_interface::return_type::OK);
   std::vector<hardware_interface::LoanedStateInterface> state_ifs;
   for (size_t i = 0; i < 6; i++) {
